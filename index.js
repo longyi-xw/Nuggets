@@ -9,7 +9,6 @@ const getPoint = require('./src/getPoint');
 const { autoGame } = require('./src/games/autoRun');
 
 (async () => {
-  return
   // 上次分数
   const yesterday_score = await getPoint();
 

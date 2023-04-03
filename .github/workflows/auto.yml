@@ -30,6 +30,6 @@ jobs:
 
       - name: Run Project
         run: |
-          cd workflows
+          pwd
           yarn
           yarn index.js

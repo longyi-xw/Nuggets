@@ -7,8 +7,13 @@ const sendWxWork = require('./src/sendWxWork')
 const getPoint = require('./src/getPoint');
 
 const { autoGame } = require('./src/games/autoRun');
+const { activeTask } = require("./src/activeTasks");
 
 (async () => {
+
+  await activeTask()
+  return
+
   // 上次分数
   const yesterday_score = await getPoint();
 
@@ -54,6 +59,7 @@ const { autoGame } = require('./src/games/autoRun');
   }
 
   console.log(dip_res);
+
 
   try {
     const html = `

@@ -11,8 +11,6 @@ const { activeTask } = require("./src/activeTasks");
 
 (async () => {
 
-  await activeTask()
-  return
 
   // 上次分数
   const yesterday_score = await getPoint();
@@ -59,6 +57,9 @@ const { activeTask } = require("./src/activeTasks");
   }
 
   console.log(dip_res);
+
+  const active = await activeTask()
+  console.log(active)
 
 
   try {

@@ -81,7 +81,7 @@ const activeTask = async () => {
       headers, method: 'GET', credentials: 'include',
     }
 
-    // await followTask(apiConfig)
+    await followTask(apiConfig)
 
     await articleCollect()
 

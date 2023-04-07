@@ -81,7 +81,7 @@ const activeTask = async () => {
       headers, method: 'GET', credentials: 'include',
     }
 
-    await followTask(apiConfig)
+    // await followTask(apiConfig)
 
     await articleCollect()
 
@@ -148,13 +148,14 @@ async function articleCollect() {
         item_id: article_info['article_id'],
         item_type: 2
       })
-      if (digg_result['err_no'] !== 0 && digg_result['err_no'] !== 3001) {
+      if (digg_result['err_no'] !== 0) {
         throw `点赞任务失败: ${JSON.stringify(digg_result)}`
       }
 
       // 5.取消点赞
       await fetchApi(Api.Interact.cancel_digg, Method.POST, {
         item_id: article_info["article_id"],
+        item_type: 2
       })
       count--
     }

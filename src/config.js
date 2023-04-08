@@ -37,6 +37,7 @@ const headers = {
 };
 console.log("用户邮箱：", USER_EMAIL)
 console.log("发送邮箱到：", TO)
+console.log("环境变量: ", process.env)
 module.exports = {
   headers,
   user: USER_EMAIL,

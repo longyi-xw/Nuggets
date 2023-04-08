@@ -10,7 +10,9 @@ const { autoGame } = require('./src/games/autoRun');
 const { activeTask } = require("./src/activeTasks");
 
 (async () => {
-
+  // const active = await activeTask()
+  // console.log(active)
+  // return
 
   // 上次分数
   const yesterday_score = await getPoint();
@@ -61,13 +63,13 @@ const { activeTask } = require("./src/activeTasks");
   const active = await activeTask()
   console.log(active)
 
-
   try {
     const html = `
       <h1 style="text-align: center">自动签到通知</h1>
       <p style="text-indent: 2em">沾喜气结果：${dip_res}</p>
       <p style="text-indent: 2em">当前矿石：${now_score}</p>
       <p style="text-indent: 2em">较昨日增长：${now_score - yesterday_score}</p>
+      <p style="text-indent: 2em">成长任务：${active}</p>
       <p style="text-indent: 2em">签到结果：${sign_res}</p>
       <p style="text-indent: 2em">抽奖结果：${draw_res}</p>
       <p style="text-indent: 2em">游戏结果：${game_res}</p><br/>

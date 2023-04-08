@@ -26,6 +26,7 @@ const fetchApi = async (url, method, params) => {
       config.body = params
     }
     config.method = method
+
     const data = await fetch(url, config)
       .then(res => res.json())
       .catch(err => reject(`fetchApi捕获错误：${err}`))
@@ -55,7 +56,8 @@ const Api = {
   },
   Recommend: {
     base: "/recommend_api/v1",
-    get_articles: "/article/recommend_all_feed"
+    get_articles: "/article/recommend_all_feed",
+    add_hot_digg: "/short_msg/hot"
   },
 }
 generatingAPI(Api)
@@ -81,10 +83,11 @@ const activeTask = async () => {
       headers, method: 'GET', credentials: 'include',
     }
 
-    // await followTask(apiConfig)
+    await followTask(apiConfig)
 
     await articleCollect()
 
+    await hotDigg()
     return "成长活跃任务完成!"
   } catch (error) {
     console.error("成长活跃任务捕获的错误：", error)
@@ -160,6 +163,31 @@ async function articleCollect() {
       count--
     }
     index++
+  }
+}
+
+/**
+ * 沸点点赞任务
+ * @returns {Promise<void>}
+ */
+async function hotDigg() {
+  // 获取热门沸点点赞
+
+  // 1.获取沸点列表
+  const { data } = await fetchApi(Api.Recommend.add_hot_digg, Method.POST, { id_type: 4, limit: 1000, sort_type: 200 })
+
+  if (data && data.length) {
+    for (let i = 0; i < 2; i++) {
+      const { msg_id } = data[i]
+      // 2.点赞
+      const digg_result = await fetchApi(Api.Interact.digg, Method.POST, { item_id: msg_id, item_type: 4 })
+      if (digg_result['err_no'] !== 0) {
+        throw `沸点点赞失败 ${digg_result}`
+      }
+
+      // 3.取消点赞
+      await fetchApi(Api.Interact.cancel_digg, Method.POST, { item_id: msg_id, item_type: 4 })
+    }
   }
 }
 

@@ -1,4 +1,4 @@
-const { COOKIE, USER_EMAIL, EMAIL_PASS, TO, UID, DD_BOT_TOKEN, DD_BOT_SECRET, WORKWX_WEBHOOK } = process.env;
+const { COOKIE, EMAIL_USER, EMAIL_PASS, EMAIL_TO, UID, DD_BOT_TOKEN, DD_BOT_SECRET, WORKWX_WEBHOOK } = process.env;
 // COOKIE = {
 //   "__tea_cookie_tokens_2608": "%7B%22web_id%22%3A%227200646839983654459%22%2C%22user_unique_id%22%3A%227200646839983654459%22%2C%22timestamp%22%3A1676531249634%7D",
 //   "_tea_utm_cache_2608": "{\"utm_source\":\"web1\",\"utm_medium\":\"feed\",\"utm_campaign\":\"rgznfc\"}",
@@ -35,14 +35,13 @@ const headers = {
   referer: 'https://juejin.cn/',
   cookie: cookie_str
 };
-console.log("用户邮箱：", USER_EMAIL)
-console.log("发送邮箱到：", TO)
-console.log("环境变量: ", process.env)
+console.log("用户邮箱：", EMAIL_USER)
+console.log("发送邮箱到：", EMAIL_TO)
 module.exports = {
   headers,
-  user: USER_EMAIL,
+  user: EMAIL_USER,
   pass: EMAIL_PASS,
-  to: TO,
+  to: EMAIL_TO,
   uid: UID,
   DD_BOT_TOKEN,
   DD_BOT_SECRET,

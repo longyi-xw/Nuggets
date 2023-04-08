@@ -35,5 +35,5 @@ const headers = {
   referer: 'https://juejin.cn/',
   cookie: cookie_str
 };
-
+console.log("用户邮箱：", USER)
 module.exports = { headers, user: USER, pass: PASS, to: TO, uid: UID, DD_BOT_TOKEN, DD_BOT_SECRET, WORKWX_WEBHOOK };

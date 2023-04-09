@@ -22,11 +22,10 @@ const fetchApi = async (url, method, params) => {
       let params_str = params && Object.keys(params).map(key => `${key}=${params[key]}`).join("&")
       url += '?' + params_str
     } else if (method === 'POST') {
-      params = JSON.stringify(params)
+      params = JSON.stringify(params ?? {})
       config.body = params
     }
     config.method = method
-
     const data = await fetch(url, config)
       .then(res => res.json())
       .catch(err => reject(`fetchApi捕获错误：${err}`))
@@ -41,6 +40,8 @@ const Api = {
   User: {
     base: "/user_api/v1",
     get_follows: "/follow/followees",
+    get_bugfix: "/bugfix/not_collect",
+    collect_bug: "/bugfix/collect"
   },
   Interact: {
     base: "/interact_api/v1",
@@ -79,15 +80,15 @@ function generatingAPI(api) {
 
 const activeTask = async () => {
   try {
-    const apiConfig = {
-      headers, method: 'GET', credentials: 'include',
-    }
 
-    await followTask(apiConfig)
+    await followTask()
 
     await articleCollect()
 
     await hotDigg()
+
+    await harvestBugfix()
+
     return "成长活跃任务完成!"
   } catch (error) {
     console.error("成长活跃任务捕获的错误：", error)
@@ -187,6 +188,24 @@ async function hotDigg() {
 
       // 3.取消点赞
       await fetchApi(Api.Interact.cancel_digg, Method.POST, { item_id: msg_id, item_type: 4 })
+    }
+  }
+}
+
+/**
+ * 收取bugfix
+ * @returns {Promise<void>}
+ */
+async function harvestBugfix() {
+  // 收取bug
+
+  // 1.获取bug列表
+  const { data } = await fetchApi(Api.User.get_bugfix, Method.POST)
+  for (let bug of data) {
+    // 2.收取bug
+    const result = await fetchApi(Api.User.collect_bug, Method.POST, { bug_type: bug.bug_type, bug_time: bug.bug_time })
+    if (result['err_no'] !== 0) {
+      throw `bug消除失败 ${JSON.stringify(result)}`
     }
   }
 }

@@ -10,8 +10,8 @@ const { autoGame } = require('./src/games/autoRun');
 const { activeTask } = require("./src/activeTasks");
 
 (async () => {
-  // const active = await activeTask()
-  // console.log(active)
+  // const active1 = await activeTask()
+  // console.log(active1)
   // return
 
   // 上次分数

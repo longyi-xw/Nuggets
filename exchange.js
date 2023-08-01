@@ -1,0 +1,54 @@
+const { fetchApi, Api, Method } = require("./src/fetch");
+const cookie = require("./src/config").COOKIE_DEFAULT;
+
+/**
+ * 兑换
+ * 让你不让我兑换马克杯！！！
+ */
+(async () => {
+
+    const exchangeItems = ["掘金限量徽章套盒", "马克杯"]
+    const address_info = {
+        receive_name: "龙逸",
+        receive_phone: "15892783526",
+    }
+
+    // 获取兑换商店
+    const { data } = await fetchApi(Api.Growth.get_benefit, Method.POST, {
+        got_channel: 2, page_no: 1, page_size: 100, type: 1
+    })
+
+    let targets = []
+    for (let item of data) {
+        const benefit = item['benefit_config']
+        if (exchangeItems.filter(ex => benefit['lottery_name'].includes(ex)).length) {
+            targets.push(Object.assign({}, benefit, item['lottery']['lottery_base']))
+        }
+    }
+    for (let target of targets) {
+        let header_params = {
+            msToken: cookie.msToken,
+            a_bogus: "YysdhcgYMsm1t8az2hkz9j3B6NY0YW5ugZENAxgFHtog"
+        }
+        header_params = Object.keys(header_params).map(key => key + "=" + header_params[key]).join("&")
+        const body_params = {
+            benefit_id: target.benefit_id,
+            donate_point: target.donate_point,
+            id: target.id,
+            lottery_cost: target.lottery_cost,
+            lottery_desc: target.lottery_desc,
+            lottery_id: target.lottery_id,
+            lottery_image: target.lottery_image,
+            lottery_reality: target.lottery_reality,
+            lottery_name: target.lottery_name,
+            lottery_type: target.lottery_type,
+            recycle_point: target.recycle_point,
+            ...address_info,
+            remark: "",
+            user_id: "105198803754199"
+        }
+        console.log(body_params)
+        const data = await fetchApi(Api.Growth.add_exchange + "?" + header_params, Method.POST, body_params)
+        console.log(data)
+    }
+})()

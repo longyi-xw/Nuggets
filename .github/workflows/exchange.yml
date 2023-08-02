@@ -1,0 +1,35 @@
+name: Auto
+
+on:
+  schedule:
+    - cron: "00 16 * * *" # 北京时间00:01
+  workflow_dispatch:
+
+env:
+  COOKIE: ${{ secrets.COOKIE }}
+  COOKIE_2: ${{ secrets.COOKIE_2 }}
+  COOKIE_3: ${{ secrets.COOKIE_3 }}
+  COOKIE_4: ${{ secrets.COOKIE_4 }}
+  COOKIE_5: ${{ secrets.COOKIE_5 }}
+  EMAIL_USER: ${{ secrets.EMAIL_USER }}
+  EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
+  EMAIL_TO: ${{ secrets.EMAIL_TO }}
+  DINGDING_WEBHOOK: ${{ secrets.DINGDING_WEBHOOK }}
+  PUSHPLUS_TOKEN: ${{ secrets.PUSHPLUS_TOKEN }}
+  WEIXIN_WEBHOOK: ${{ secrets.WEIXIN_WEBHOOK }}
+
+jobs:
+  CheckIn:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Run Project
+        run: |
+          pwd
+          yarn
+          node ./exchange.js

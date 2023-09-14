@@ -1,4 +1,4 @@
-name: Auto
+name: Exchange
 
 on:
   schedule:

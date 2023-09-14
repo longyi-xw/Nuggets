@@ -11,8 +11,8 @@ const cookie = require("./src/config").COOKIE_DEFAULT;
     try {
         const exchangeItems = ["苹果耳机", "马克杯"]
         const address_info = {
-            receive_name: "龙逸",
-            receive_phone: "15892783526",
+            receive_name: "xxx",
+            receive_phone: "xxxxx",
         }
 
         // 获取兑换商店

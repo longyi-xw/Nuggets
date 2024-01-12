@@ -32,7 +32,7 @@ const headers = {
   Accept: "*/*",
   "Accept-Language":
     "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
-  Authorization: "Bearer " + OPENAI_API_KEY,
+  Authorization: "Bearer " + "sk-i82RYQ4SXNjpbpnZUhdqufCf6G1RKSPGcMTs9KxUjipAXNtl",
   referer: "https://juejin.cn/",
   cookie: cookie_str,
 };

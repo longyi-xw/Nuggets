@@ -135,6 +135,7 @@ async function hotPublish() {
  * @param {*} comment
  */
 async function hotComment(comment, id) {
+  console.log("chatgpt ----->", comment);
   // 调用chatgpt api
   const data = await fetchApi(
     "https://api.chatanywhere.com.cn/v1/chat/completions",
@@ -197,7 +198,6 @@ async function hotDigg() {
     // 沸点评论
     let count = 0;
     for (let comment of messages) {
-      console.log("调用gpt --->", comment);
       try {
         hotComment(comment.content, comment.id);
       } catch (error) {

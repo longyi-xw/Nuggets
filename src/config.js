@@ -1,6 +1,6 @@
 const {
   COOKIE,
-  OPENAI_API_KEY,
+  OPENAI_KEY,
   EMAIL_USER,
   EMAIL_PASS,
   EMAIL_TO,
@@ -10,7 +10,7 @@ const {
   WORKWX_WEBHOOK,
 } = process.env;
 
-console.log("gpt key --->", OPENAI_API_KEY);
+console.log("gpt key --->", OPENAI_KEY);
 
 let COOKIE_DEFAULT = require("./cookie").COOKIE;
 let cookie_str;
@@ -34,7 +34,7 @@ const headers = {
   Accept: "*/*",
   "Accept-Language":
     "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
-  Authorization: "Bearer " + OPENAI_API_KEY,
+  Authorization: "Bearer " + OPENAI_KEY,
   referer: "https://juejin.cn/",
   cookie: cookie_str,
 };

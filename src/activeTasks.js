@@ -7,15 +7,13 @@ const { fetchApi, Api, Method } = require("./fetch");
 
 const activeTask = async () => {
   try {
-    await followTask();
+    // await followTask();
 
-    await articleCollect();
+    // await articleCollect();
 
     await hotDigg();
 
-    await harvestBugfix();
-
-    await hotPublish();
+    // await hotPublish();
 
     return "成长活跃任务完成!";
   } catch (error) {
@@ -112,21 +110,23 @@ async function articleCollect() {
 }
 
 async function hotPublish() {
-  // 获取每日一言
-  const word = await fetchApi("https://v1.hitokoto.cn/");
-  const hotParams = {
-    content: word.hitokoto + "               --" + word.from,
-    sync_to_org: false,
-  };
+  for (let i = 0; i < 2; i++) {
+    // 获取每日一言
+    const word = await fetchApi("https://v1.hitokoto.cn/");
+    const hotParams = {
+      content: word.hitokoto + "               --" + word.from,
+      sync_to_org: false,
+    };
 
-  // 发布沸点
-  const { data } = await fetchApi(
-    Api.Content.publishHot,
-    Method.POST,
-    hotParams
-  );
-  if (data.content !== hotParams.content) {
-    throw `发布沸点失败 ${JSON.stringify(data)}`;
+    // 发布沸点
+    const { data } = await fetchApi(
+      Api.Content.publishHot,
+      Method.POST,
+      hotParams
+    );
+    if (data.content !== hotParams.content) {
+      throw `发布沸点失败 ${JSON.stringify(data)}`;
+    }
   }
 }
 
@@ -197,6 +197,7 @@ async function hotDigg() {
     // 沸点评论
     let count = 0;
     for (let comment of messages) {
+      console.log("调用gpt --->", comment);
       try {
         hotComment(comment.content, comment.id);
       } catch (error) {

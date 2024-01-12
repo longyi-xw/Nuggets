@@ -42,7 +42,8 @@ const Api = {
         unfollow: "/follow/undo",
         follow: "/follow/do",
         digg: "/digg/save",
-        cancel_digg: "/digg/cancel"
+        cancel_digg: "/digg/cancel",
+        comment: "/comment/publish"
     },
     Interact_v2: {
         base: "/interact_api/v2",
@@ -58,6 +59,10 @@ const Api = {
         base: "/growth_api/v1",
         get_benefit: "/get_benefit_page",
         add_exchange: "/publish_benefit_history"
+    },
+    Content: {
+        base: "/content_api/v1",
+        publishHot: "/short_msg/publish",
     }
 }
 

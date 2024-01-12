@@ -1,25 +1,21 @@
-const sign_in = require('./src/signIn');
-const draw = require('./src/draw');
-const dipLucky = require('./src/dipLucky');
-const sendMail = require('./src/sendMail');
-const sendDingTalk = require('./src/sendDingTalk');
-const sendWxWork = require('./src/sendWxWork')
-const getPoint = require('./src/getPoint');
+const sign_in = require("./src/signIn");
+const draw = require("./src/draw");
+const dipLucky = require("./src/dipLucky");
+const sendMail = require("./src/sendMail");
+const sendDingTalk = require("./src/sendDingTalk");
+const sendWxWork = require("./src/sendWxWork");
+const getPoint = require("./src/getPoint");
 
-const { autoGame } = require('./src/games/autoRun');
+// const { autoGame } = require('./src/games/autoRun');
 const { activeTask } = require("./src/activeTasks");
 
 (async () => {
-  // const active1 = await activeTask()
-  // console.log(active1)
-  // return
-
   // 上次分数
   const yesterday_score = await getPoint();
 
   console.log(`昨日矿石：${yesterday_score}`);
 
-  let sign_res = '';
+  let sign_res = "";
 
   try {
     // 签到
@@ -30,7 +26,7 @@ const { activeTask } = require("./src/activeTasks");
 
   console.log(sign_res);
 
-  let draw_res = '';
+  let draw_res = "";
   try {
     // 抽奖
     draw_res = await draw();
@@ -39,11 +35,11 @@ const { activeTask } = require("./src/activeTasks");
   }
 
   console.log(draw_res);
-  let game_res = '挖矿成功！';
+  let game_res = "挖矿成功！";
   try {
-    await autoGame();
+    // await autoGame();
   } catch (error) {
-    game_res = '挖矿失败！';
+    game_res = "挖矿失败！";
   }
 
   // 当前分数
@@ -60,8 +56,8 @@ const { activeTask } = require("./src/activeTasks");
 
   console.log(dip_res);
 
-  const active = await activeTask()
-  console.log(active)
+  const active = await activeTask();
+  console.log(active);
 
   try {
     const html = `
@@ -77,9 +73,9 @@ const { activeTask } = require("./src/activeTasks");
 
     // console.log(html);
 
-    await sendMail({ from: '掘金', subject: '定时任务', html });
+    await sendMail({ from: "掘金", subject: "定时任务", html });
 
-    console.log('邮件发送完成');
+    console.log("邮件发送完成");
   } catch (error) {
     console.error(error);
   }
@@ -96,18 +92,20 @@ const { activeTask } = require("./src/activeTasks");
 
     await sendDingTalk(msg);
 
-    console.log('钉钉机器人通知完成');
+    console.log("钉钉机器人通知完成");
   } catch (error) {
     console.error(error);
   }
 
   try {
-    const html = `掘金自动签到通知\n> 沾喜气结果:<font color=\"comment\">${dip_res}</font>\n> 当前矿石:<font color=\"comment\">${now_score}</font>\n> 较昨日增长:<font color=\"comment\">${now_score - yesterday_score}</font>\n>签到结果:<font color=\"comment\">${sign_res}</font>\n> 抽奖结果:<font color=\"comment\">${draw_res}</font>\n> 游戏结果:<font color=\"comment\">${game_res}</font>`
+    const html = `掘金自动签到通知\n> 沾喜气结果:<font color=\"comment\">${dip_res}</font>\n> 当前矿石:<font color=\"comment\">${now_score}</font>\n> 较昨日增长:<font color=\"comment\">${
+      now_score - yesterday_score
+    }</font>\n>签到结果:<font color=\"comment\">${sign_res}</font>\n> 抽奖结果:<font color=\"comment\">${draw_res}</font>\n> 游戏结果:<font color=\"comment\">${game_res}</font>`;
 
-    const msg = await sendWxWork(html)
+    const msg = await sendWxWork(html);
 
-    console.log(msg)
+    console.log(msg);
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
 })();

@@ -199,11 +199,11 @@ async function hotDigg() {
     let count = 0;
     for (let comment of messages) {
       try {
-        hotComment(comment.content, comment.id);
+        // hotComment(comment.content, comment.id);
       } catch (error) {
         count++;
         if (count < 10) {
-          hotComment(comment.content, comment.id);
+          // hotComment(comment.content, comment.id);
         }
       }
     }

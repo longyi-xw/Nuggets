@@ -10,6 +10,8 @@ const {
   WORKWX_WEBHOOK,
 } = process.env;
 
+console.log("gpt key --->", OPENAI_API_KEY);
+
 let COOKIE_DEFAULT = require("./cookie").COOKIE;
 let cookie_str;
 try {
@@ -32,7 +34,7 @@ const headers = {
   Accept: "*/*",
   "Accept-Language":
     "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
-  Authorization: "Bearer " + "sk-i82RYQ4SXNjpbpnZUhdqufCf6G1RKSPGcMTs9KxUjipAXNtl",
+  Authorization: "Bearer " + OPENAI_API_KEY,
   referer: "https://juejin.cn/",
   cookie: cookie_str,
 };

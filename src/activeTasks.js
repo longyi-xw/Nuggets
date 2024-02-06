@@ -125,11 +125,11 @@ async function hotPublish() {
         Method.POST,
         hotParams
       );
-      console.log("发布沸点 --->", data);
+      console.log("发布沸点 --->", hotParams);
       if (data.content !== hotParams.content) {
         throw `发布沸点失败 ${JSON.stringify(data)}`;
       }
-    }, 1000);
+    }, 5000);
   }
 }
 

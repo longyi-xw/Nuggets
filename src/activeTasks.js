@@ -94,7 +94,7 @@ async function articleCollect() {
         item_id: article_info["article_id"],
         item_type: 2,
       });
-      if (digg_result["err_no"] !== 0) {
+      if (![0, 3001].includes(digg_result["err_no"])) {
         throw `点赞任务失败: ${JSON.stringify(digg_result)}`;
       }
 
@@ -187,7 +187,7 @@ async function hotDigg() {
         item_id: msg_id,
         item_type: 4,
       });
-      if (digg_result["err_no"] !== 0) {
+      if (![0, 3001].includes(digg_result["err_no"])) {
         throw `沸点点赞失败 ${digg_result}`;
       }
 
@@ -202,11 +202,11 @@ async function hotDigg() {
     let count = 0;
     for (let comment of messages) {
       try {
-        // hotComment(comment.content, comment.id);
+        hotComment(comment.content, comment.id);
       } catch (error) {
         count++;
         if (count < 10) {
-          // hotComment(comment.content, comment.id);
+          hotComment(comment.content, comment.id);
         }
       }
     }

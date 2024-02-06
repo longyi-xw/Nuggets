@@ -7,13 +7,13 @@ const { fetchApi, Api, Method } = require("./fetch");
 
 const activeTask = async () => {
   try {
-    // await followTask();
+    await followTask();
 
-    // await articleCollect();
+    await articleCollect();
 
     await hotDigg();
 
-    // await hotPublish();
+    await hotPublish();
 
     return "成长活跃任务完成!";
   } catch (error) {
@@ -99,10 +99,10 @@ async function articleCollect() {
       }
 
       // 5.取消点赞
-      await fetchApi(Api.Interact.cancel_digg, Method.POST, {
-        item_id: article_info["article_id"],
-        item_type: 2,
-      });
+      // await fetchApi(Api.Interact.cancel_digg, Method.POST, {
+      //   item_id: article_info["article_id"],
+      //   item_type: 2,
+      // });
       count--;
     }
     index++;
@@ -189,10 +189,10 @@ async function hotDigg() {
       }
 
       // 3.取消点赞
-      await fetchApi(Api.Interact.cancel_digg, Method.POST, {
-        item_id: msg_id,
-        item_type: 4,
-      });
+      // await fetchApi(Api.Interact.cancel_digg, Method.POST, {
+      //   item_id: msg_id,
+      //   item_type: 4,
+      // });
     }
 
     // 沸点评论

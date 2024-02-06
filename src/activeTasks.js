@@ -111,22 +111,25 @@ async function articleCollect() {
 
 async function hotPublish() {
   for (let i = 0; i < 2; i++) {
-    // 获取每日一言
-    const word = await fetchApi("https://v1.hitokoto.cn/");
-    const hotParams = {
-      content: word.hitokoto + "               --" + word.from,
-      sync_to_org: false,
-    };
+    setTimeout(async () => {
+      // 获取每日一言
+      const word = await fetchApi("https://v1.hitokoto.cn/");
+      const hotParams = {
+        content: word.hitokoto + "               --" + word.from,
+        sync_to_org: false,
+      };
 
-    // 发布沸点
-    const { data } = await fetchApi(
-      Api.Content.publishHot,
-      Method.POST,
-      hotParams
-    );
-    if (data.content !== hotParams.content) {
-      throw `发布沸点失败 ${JSON.stringify(data)}`;
-    }
+      // 发布沸点
+      const { data } = await fetchApi(
+        Api.Content.publishHot,
+        Method.POST,
+        hotParams
+      );
+      console.log("发布沸点 --->", data);
+      if (data.content !== hotParams.content) {
+        throw `发布沸点失败 ${JSON.stringify(data)}`;
+      }
+    }, 1000);
   }
 }
 

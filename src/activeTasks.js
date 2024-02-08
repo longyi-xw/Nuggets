@@ -15,6 +15,8 @@ const activeTask = async () => {
 
     await hotPublish();
 
+    await hotPublish();
+
     return "成长活跃任务完成!";
   } catch (error) {
     console.error("成长活跃任务捕获的错误：", error);
@@ -63,13 +65,13 @@ async function articleCollect() {
       limit: 1200,
     })
   )?.data;
-  let count = 2;
+  let count = 3;
   let index = 0;
   while (count > 0 && data && data.length) {
     const { article_info } = data[index]["item_info"];
     const rd = (n, m) => Math.floor(Math.random() * (m - n + 1) + n);
     // 生成随机限制防止重复任务不成功
-    if (article_info && article_info["view_count"] >= rd(3000, 30000)) {
+    if (article_info && article_info["view_count"] >= rd(1000, 30000)) {
       // 2.收藏
       const result = await fetchApi(
         Api.Interact_v2.add_article_collect,
@@ -110,26 +112,22 @@ async function articleCollect() {
 }
 
 async function hotPublish() {
-  for (let i = 0; i < 2; i++) {
-    setTimeout(async () => {
-      // 获取每日一言
-      const word = await fetchApi("https://v1.hitokoto.cn/");
-      const hotParams = {
-        content: word.hitokoto + "               --" + word.from,
-        sync_to_org: false,
-      };
+  // 获取每日一言
+  const word = await fetchApi("https://v1.hitokoto.cn/");
+  const hotParams = {
+    content: word.hitokoto + "               --" + word.from,
+    sync_to_org: false,
+  };
 
-      // 发布沸点
-      const { data } = await fetchApi(
-        Api.Content.publishHot,
-        Method.POST,
-        hotParams
-      );
-      console.log("发布沸点 --->", hotParams);
-      if (data.content !== hotParams.content) {
-        throw `发布沸点失败 ${JSON.stringify(data)}`;
-      }
-    }, 5000);
+  // 发布沸点
+  const { data } = await fetchApi(
+    Api.Content.publishHot,
+    Method.POST,
+    hotParams
+  );
+  console.log("发布沸点 --->", data);
+  if (data.content !== hotParams.content) {
+    throw `发布沸点失败 ${JSON.stringify(data)}`;
   }
 }
 

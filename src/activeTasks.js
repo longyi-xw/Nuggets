@@ -15,8 +15,6 @@ const activeTask = async () => {
 
     await hotPublish();
 
-    await hotPublish();
-
     return "成长活跃任务完成!";
   } catch (error) {
     console.error("成长活跃任务捕获的错误：", error);
@@ -126,8 +124,9 @@ async function hotPublish() {
     hotParams
   );
   console.log("发布沸点 --->", data);
-  if (data.content !== hotParams.content) {
-    throw `发布沸点失败 ${JSON.stringify(data)}`;
+  if (data === null) {
+    console.log(`发布沸点失败 ${JSON.stringify(data)} 重新发布沸点 ---->`);
+    hotPublish();
   }
 }
 

@@ -4,14 +4,17 @@
  */
 
 const { fetchApi, Api, Method } = require("./fetch");
+const rd = (n, m) => Math.floor(Math.random() * (m - n + 1) + n);
 
 const activeTask = async () => {
   try {
     await followTask();
 
+    await hotDigg();
+
     await articleCollect();
 
-    await hotDigg();
+    await hotPublish();
 
     await hotPublish();
 
@@ -67,9 +70,8 @@ async function articleCollect() {
   let index = 0;
   while (count > 0 && data && data.length) {
     const { article_info } = data[index]["item_info"];
-    const rd = (n, m) => Math.floor(Math.random() * (m - n + 1) + n);
     // 生成随机限制防止重复任务不成功
-    if (article_info && article_info["view_count"] >= rd(1000, 30000)) {
+    if (article_info && article_info["view_count"] >= rd(500, 50000)) {
       // 2.收藏
       const result = await fetchApi(
         Api.Interact_v2.add_article_collect,
@@ -176,7 +178,9 @@ async function hotDigg() {
   if (data && data.length) {
     const messages = [];
     for (let i = 0; i < 5; i++) {
-      const { msg_id, msg_Info } = data[i];
+      // 防止重复点赞
+      const rdIndex = rd(1, data.length - 1);
+      const { msg_id, msg_Info } = data[rdIndex];
 
       messages.push({ id: msg_id, content: msg_Info.content });
       // 2.点赞

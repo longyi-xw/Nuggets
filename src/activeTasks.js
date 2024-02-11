@@ -96,6 +96,7 @@ async function articleCollect() {
         item_id: article_info["article_id"],
         item_type: 2,
       });
+      console.log("文章点赞 ---->", digg_result);
       if (![0, 3001].includes(digg_result["err_no"])) {
         throw `点赞任务失败: ${JSON.stringify(digg_result)}`;
       }

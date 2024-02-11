@@ -58,57 +58,52 @@ async function followTask() {
  */
 async function articleCollect() {
   // 通过综合推荐完成任务，也可以通过个人收藏完成
-
-  // 1.获取收藏列表
   const data = (
     await fetchApi(Api.Recommend.get_articles, Method.POST, {
       id_type: 2,
-      limit: 1200,
+      limit: 20,
     })
   )?.data;
-  let count = 3;
-  let index = 0;
+  let count = 4;
   while (count > 0 && data && data.length) {
+    const index = rd(0, 20 - 1);
     const { article_info } = data[index]["item_info"];
-    // 生成随机限制防止重复任务不成功
-    if (article_info && article_info["view_count"] >= rd(500, 50000)) {
-      // 2.收藏
-      const result = await fetchApi(
-        Api.Interact_v2.add_article_collect,
-        Method.POST,
-        {
-          article_id: article_info["article_id"],
-          // 收藏夹收藏id
-          select_collection_ids: ["7117170426861584420"],
-        }
-      );
-      if (result["err_no"] !== 0) {
-        throw `文章收藏任务失败: ${JSON.stringify(result)}`;
-      }
-
-      // 3.收藏后取消，避免出现重复收藏
-      await fetchApi(Api.Interact_v2.delete_article_collect, Method.POST, {
+    // 2.收藏
+    const result = await fetchApi(
+      Api.Interact_v2.add_article_collect,
+      Method.POST,
+      {
         article_id: article_info["article_id"],
-      });
+        // 收藏夹收藏id
+        select_collection_ids: ["7117170426861584420"],
+      }
+    );
+    if (result["err_no"] !== 0) {
+      throw `文章收藏任务失败: ${JSON.stringify(result)}`;
+    }
 
-      // 4.点赞
-      const digg_result = await fetchApi(Api.Interact.digg, Method.POST, {
+    // 3.收藏后取消，避免出现重复收藏
+    await fetchApi(Api.Interact_v2.delete_article_collect, Method.POST, {
+      article_id: article_info["article_id"],
+    });
+
+    // 4.点赞
+    const digg_result = await fetchApi(Api.Interact.digg, Method.POST, {
+      item_id: article_info["article_id"],
+      item_type: 2,
+    });
+    if (digg_result["err_no"] !== 0) {
+      throw `文章点赞任务失败 ${digg_result}`;
+    } else if (digg_result["err_no"] === 3001) {
+      // 5.取消点赞
+      await fetchApi(Api.Interact.cancel_digg, Method.POST, {
         item_id: article_info["article_id"],
         item_type: 2,
       });
-      console.log("文章点赞 ---->", digg_result);
-      if (![0, 3001].includes(digg_result["err_no"])) {
-        throw `点赞任务失败: ${JSON.stringify(digg_result)}`;
-      }
-
-      // 5.取消点赞
-      // await fetchApi(Api.Interact.cancel_digg, Method.POST, {
-      //   item_id: article_info["article_id"],
-      //   item_type: 2,
-      // });
-      count--;
+      throw `文章点赞任务失败, 重复点赞`;
     }
-    index++;
+
+    count--;
   }
 }
 
@@ -189,8 +184,10 @@ async function hotDigg() {
         item_id: msg_id,
         item_type: 4,
       });
-      if (![0, 3001].includes(digg_result["err_no"])) {
+      if (digg_result["err_no"] !== 0) {
         throw `沸点点赞失败 ${digg_result}`;
+      } else if (digg_result["err_no"] === 3001) {
+        throw `沸点点赞失败, 重复点赞`;
       }
 
       // 3.取消点赞

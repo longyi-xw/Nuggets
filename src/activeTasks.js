@@ -93,14 +93,14 @@ async function articleCollect() {
       item_type: 2,
     });
     if (digg_result["err_no"] !== 0) {
-      throw `文章点赞任务失败 ${digg_result}`;
+      console.log(`文章点赞任务失败 ${JSON.stringify(digg_result)}`);
     } else if (digg_result["err_no"] === 3001) {
       // 5.取消点赞
       await fetchApi(Api.Interact.cancel_digg, Method.POST, {
         item_id: article_info["article_id"],
         item_type: 2,
       });
-      throw `文章点赞任务失败, 重复点赞`;
+      console.log(`文章点赞任务失败, 重复点赞`);
     }
 
     count--;

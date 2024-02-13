@@ -64,7 +64,7 @@ async function articleCollect() {
       limit: 20,
     })
   )?.data;
-  let count = 4;
+  let count = 2;
   while (count > 0 && data && data.length) {
     const index = rd(0, 20 - 1);
     const { article_info } = data[index]["item_info"];
@@ -92,15 +92,16 @@ async function articleCollect() {
       item_id: article_info["article_id"],
       item_type: 2,
     });
-    if (digg_result["err_no"] !== 0) {
-      console.log(`文章点赞任务失败 ${JSON.stringify(digg_result)}`);
-    } else if (digg_result["err_no"] === 3001) {
+    if (digg_result["err_no"] === 3001) {
       // 5.取消点赞
       await fetchApi(Api.Interact.cancel_digg, Method.POST, {
         item_id: article_info["article_id"],
         item_type: 2,
       });
+      count++;
       console.log(`文章点赞任务失败, 重复点赞`);
+    } else if (digg_result["err_no"] !== 0) {
+      console.log(`文章点赞任务失败 ${JSON.stringify(digg_result)}`);
     }
 
     count--;
@@ -184,17 +185,17 @@ async function hotDigg() {
         item_id: msg_id,
         item_type: 4,
       });
-      if (digg_result["err_no"] !== 0) {
-        throw `沸点点赞失败 ${digg_result}`;
-      } else if (digg_result["err_no"] === 3001) {
-        throw `沸点点赞失败, 重复点赞`;
+      if (digg_result["err_no"] === 3001) {
+        console.log(`沸点点赞失败, 重复点赞`);
+        // 3.取消点赞
+        await fetchApi(Api.Interact.cancel_digg, Method.POST, {
+          item_id: msg_id,
+          item_type: 4,
+        });
+        i = Math.max(0, i - 1);
+      } else if (digg_result["err_no"] !== 0) {
+        console.log(`沸点点赞失败 ${JSON.stringify(digg_result)}`);
       }
-
-      // 3.取消点赞
-      // await fetchApi(Api.Interact.cancel_digg, Method.POST, {
-      //   item_id: msg_id,
-      //   item_type: 4,
-      // });
     }
 
     // 沸点评论

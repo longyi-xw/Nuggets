@@ -2,7 +2,7 @@ const { fetchApi, Method } = require("./src/fetch");
 
 (async function () {
   const data = await fetchApi(
-    "https://api.chatanywhere.com.cn/v1/chat/completions",
+    "https://api.chatanywhere.tech/v1/chat/completions",
     Method.POST,
     {
       model: "gpt-3.5-turbo",

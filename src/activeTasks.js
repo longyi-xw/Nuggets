@@ -89,14 +89,12 @@ async function articleCollect() {
 
     // 4.点赞
     const digg_result = await fetchApi(Api.Interact.digg, Method.POST, {
-      item_id: article_info["article_id"],
-      item_type: 2,
+      uuid: article_info["article_id"],
     });
     if (digg_result["err_no"] === 3001) {
       // 5.取消点赞
       await fetchApi(Api.Interact.cancel_digg, Method.POST, {
-        item_id: article_info["article_id"],
-        item_type: 2,
+        uuid: article_info["article_id"],
       });
       count++;
       console.log(`文章点赞任务失败, 重复点赞`);
@@ -137,7 +135,7 @@ async function hotComment(comment, id) {
   console.log("chatgpt ----->", comment);
   // 调用chatgpt api
   const data = await fetchApi(
-    "https://api.chatanywhere.com.cn/v1/chat/completions",
+    "https://api.chatanywhere.tech/v1/chat/completions",
     Method.POST,
     {
       model: "gpt-3.5-turbo",

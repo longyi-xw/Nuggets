@@ -1,5 +1,5 @@
 const fetch = require('node-fetch');
-const { headers } = require('./config');
+const { headers, tokenParams } = require('./config');
 const Method = {
     GET: 'GET',
     POST: 'POST',
@@ -11,10 +11,15 @@ const fetchApi = async (url, method, params) => {
             headers, method: 'GET', credentials: 'include'
         }
 
+        if (tokenParams && Object.keys(tokenParams).length) {
+            const urlParams = Object.keys(tokenParams).map((key) => (`${key}=${tokenParams[key]}`)).join("&")
+            url += "?" + urlParams
+        }
+
         method = method && method.toLocaleUpperCase() || 'GET'
         if (method === 'GET') {
-            let params_str = params && Object.keys(params).map(key => `${key}=${params[key]}`).join("&")
-            url += '?' + params_str
+            let params_str = (params && Object.keys(params).map(key => `${key}=${params[key]}`).join("&")) || ""
+            url += url.includes("?") ? params_str : "?" + params_str
         } else if (method === 'POST') {
             params = JSON.stringify(params ?? {})
             config.body = params
@@ -35,7 +40,8 @@ const Api = {
         base: "/user_api/v1",
         get_follows: "/follow/followees",
         get_bugfix: "/bugfix/not_collect",
-        collect_bug: "/bugfix/collect"
+        collect_bug: "/bugfix/collect",
+        login: "/user/get"
     },
     Interact: {
         base: "/interact_api/v1",
@@ -58,7 +64,11 @@ const Api = {
     Growth: {
         base: "/growth_api/v1",
         get_benefit: "/get_benefit_page",
-        add_exchange: "/publish_benefit_history"
+        add_exchange: "/publish_benefit_history",
+        get_today_status: "/get_today_status",
+        check_in: "/check_in",
+        free_lottery: "/lottery_config/get",
+        lottery: "/lottery/draw"
     },
     Content: {
         base: "/content_api/v1",

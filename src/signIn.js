@@ -10,7 +10,7 @@ async function sign_in() {
     const today_status = await fetchApi(Api.Growth.get_today_status, Method.GET);
 
     if (today_status.err_no !== 0) return Promise.reject('签到失败！');
-    if (today_status.data) return '今日已经签到！';
+    if (today_status.data?.check_in_done) return '今日已经签到！';
 
     // 签到
     const res = await fetchApi(Api.Growth.check_in, Method.POST)

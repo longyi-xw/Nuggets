@@ -68,7 +68,8 @@ const Api = {
         get_today_status: "/get_today_status",
         check_in: "/check_in",
         free_lottery: "/lottery_config/get",
-        lottery: "/lottery/draw"
+        lottery: "/lottery/draw",
+        publish_benefit: "/publish_benefit_history"
     },
     Content: {
         base: "/content_api/v1",

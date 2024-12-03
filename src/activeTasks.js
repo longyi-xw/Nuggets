@@ -10,13 +10,14 @@ const activeTask = async () => {
   try {
     await followTask();
 
-    await hotDigg();
-
     await articleCollect();
 
     await hotPublish();
 
     await hotPublish();
+
+    await hotDigg();
+
 
     return "成长活跃任务完成!";
   } catch (error) {

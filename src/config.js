@@ -14,7 +14,7 @@ const { getTokenParams, COOKIE: DC } = require("./cookie");
 
 console.log("gpt key --->", OPENAI_KEY);
 
-let COOKIE_DEFAULT = DC
+let COOKIE_DEFAULT = COOKIE
 let cookie_str;
 let tokenParams
 try {

@@ -1,14 +1,14 @@
 const COOKIE = {
-    "__tea_cookie_tokens_2608": "%257B%2522user_unique_id%2522%253A%25227246965070184531495%2522%252C%2522web_id%2522%253A%25227246965070184531495%2522%252C%2522timestamp%2522%253A1721874302049%257D",
-    "passport_csrf_token": "23e3ad1c1452a17de88d9434ea353744",
-    "passport_csrf_token_default": "23e3ad1c1452a17de88d9434ea353744",
+    "__tea_cookie_tokens_2608": "%257B%2522user_unique_id%2522%253A%25227441043812309829155%2522%252C%2522web_id%2522%253A%25227441043812309829155%2522%252C%2522timestamp%2522%253A1732503760378%257D",
+    "passport_csrf_token": "cb21d93a190bcd021653a667e7637592",
+    "passport_csrf_token_default": "cb21d93a190bcd021653a667e7637592",
     "csrf_session_id": "",
-    "msToken": "lUIjDi1KfiXypGgDt4KgCqJHwK-ajpXHixCAJw3rIKsb7w8vRB8WjqmM642qATWYzl4v2eOXw27Sqow5rCF14EGIO3XkPZPNTZujay-RpSzkhWAoTeBg7y2OnWkXbsc%3D",
+    "msToken": "TtrzVL8C63YDHIrXQ65olqzBw2bl5ABoYyuJBWRdz3K0UjzJq-Rn82JAf5AVebPchO7CPqjKlMan4QIdmQCiAbQMJr7Mn9e0DE7c-0cukR9CeVJPD594kXkgx9J_TRbL",
     "n_mh": "m4Nwod14ocYxZ8VeMr34-AMseNqHnd0sqChhin9oDYw",
-    "sid_guard": "3c9107823affbdb408f41affaec50576%7C1722415338%7C31536000%7CThu%2C+31-Jul-2025+08%3A42%3A18+GMT",
-    "sid_tt": "3c9107823affbdb408f41affaec50576",
-    "uid_tt": "cc04021c192331a70120fe8eefdb0a50",
-    "uid_tt_ss": "cc04021c192331a70120fe8eefdb0a50"
+    "sid_guard": "53253ade00c8e77c18e9dba6d7e78ac3%7C1732513119%7C31536000%7CTue%2C+25-Nov-2025+05%3A38%3A39+GMT",
+    "sid_tt": "53253ade00c8e77c18e9dba6d7e78ac3",
+    "uid_tt": "360e9fb36b833373e3d52d26918c257e",
+    "uid_tt_ss": "360e9fb36b833373e3d52d26918c257e"
 }
 
 const getTokenParams = (cookie) => {

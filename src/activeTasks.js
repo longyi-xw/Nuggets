@@ -8,16 +8,15 @@ const rd = (n, m) => Math.floor(Math.random() * (m - n + 1) + n);
 
 const activeTask = async () => {
   try {
-    await followTask();
+    // await followTask();
 
-    await articleCollect();
+    // await articleCollect();
 
-    await hotPublish();
+    // await hotPublish();
 
-    await hotPublish();
+    // await hotPublish();
 
     await hotDigg();
-
 
     return "成长活跃任务完成!";
   } catch (error) {
@@ -146,12 +145,16 @@ async function hotComment(comment, id) {
   );
 
   if (data.choices) {
-    await fetchApi(Api.Interact.comment, Method.POST, {
-      item_id: id,
-      item_type: 4,
-      comment_content: data.choices[0].message?.content,
-      comment_pics: [],
-    });
+    try {
+      await fetchApi(Api.Interact.comment, Method.POST, {
+        item_id: id,
+        item_type: 4,
+        comment_content: data.choices[0].message?.content,
+        comment_pics: [],
+      });
+    } catch (error) {
+      console.log("回复沸点接口错误");
+    }
   } else {
     throw "chatgpt api error";
   }

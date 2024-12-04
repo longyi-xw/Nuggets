@@ -8,13 +8,13 @@ const rd = (n, m) => Math.floor(Math.random() * (m - n + 1) + n);
 
 const activeTask = async () => {
   try {
-    // await followTask();
+    await followTask();
 
-    // await articleCollect();
+    await articleCollect();
 
-    // await hotPublish();
+    await hotPublish();
 
-    // await hotPublish();
+    await hotPublish();
 
     await hotDigg();
 

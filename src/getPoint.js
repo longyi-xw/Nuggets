@@ -12,7 +12,7 @@ async function get_cur_point() {
     const { data } = await fetch('https://api.juejin.cn/growth_api/v1/get_cur_point', {
       headers,
       method: 'GET',
-      credentials: 'include'
+      credentials: 'include',
     }).then((res) => res.json());
 
     return data;

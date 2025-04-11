@@ -57,6 +57,7 @@ async function followTask() {
  * @returns {Promise<void>}
  */
 async function articleCollect() {
+
   // 通过综合推荐完成任务，也可以通过个人收藏完成
   const data = (
     await fetchApi(Api.Recommend.get_articles, Method.POST, {
@@ -89,17 +90,19 @@ async function articleCollect() {
 
     // 4.点赞
     const digg_result = await fetchApi(Api.Interact.digg, Method.POST, {
-      uuid: article_info["article_id"],
+      item_id: article_info["article_id"],
+      item_type: 2,
     });
-    if (digg_result["err_no"] === 3001) {
+    if (digg_result["err_no"] === 0) {
       // 5.取消点赞
       await fetchApi(Api.Interact.cancel_digg, Method.POST, {
-        uuid: article_info["article_id"],
+        item_id: article_info["article_id"],
+        item_type: 2,
       });
       count++;
-      console.log(`文章点赞任务失败, 重复点赞`);
     } else if (digg_result["err_no"] !== 0) {
       console.log(`文章点赞任务失败 ${JSON.stringify(digg_result)}`);
+      console.log(JSON.stringify(article_info));
     }
 
     count--;

@@ -10,6 +10,8 @@ async function draw() {
     // 查询今日是否有免费抽奖机会
     const today = await fetchApi(Api.Growth.free_lottery, Method.GET)
 
+    if(!today) return Promise.reject('查询免费抽奖，接口调用异常！')
+
     if (today.err_no !== 0) return Promise.reject('查询免费抽奖，接口调用异常！');
     if (today.data.free_count === 0) return '今日已经免费抽奖！';
 

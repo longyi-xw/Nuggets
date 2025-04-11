@@ -19,7 +19,7 @@ const { activeTask } = require("./src/activeTasks");
 
     let exchange_res = "";
     try {
-        // 签到
+        // // 签到
         sign_res = await sign_in();
         exchange_res = await exchange_card();
     } catch (error) {
@@ -52,7 +52,7 @@ const { activeTask } = require("./src/activeTasks");
 
     let dip_res;
     try {
-        dip_res = await dipLucky();
+        // dip_res = await dipLucky();
     } catch (error) {
         dip_res = error;
     }

@@ -27,7 +27,7 @@ const fetchApi = async (url, method, params) => {
         config.method = method
         const data = await fetch(url, config)
             .then(res => res.json())
-            .catch(err => reject(`fetchApi捕获错误：${err}`))
+            .catch(err => console.log(`fetchApi捕获错误：${err}`))
 
         resolve(data)
     })
@@ -70,6 +70,10 @@ const Api = {
         free_lottery: "/lottery_config/get",
         lottery: "/lottery/draw",
         publish_benefit: "/publish_benefit_history"
+    },
+    Growth2: {
+        base: "/growth_api/v2",
+        get_today_status: "/get_today_status",
     },
     Content: {
         base: "/content_api/v1",

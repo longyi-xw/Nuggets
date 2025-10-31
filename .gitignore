@@ -22,3 +22,5 @@ debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+cookie.json

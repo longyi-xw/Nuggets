@@ -63,6 +63,8 @@ async function articleCollect() {
     await fetchApi(Api.Recommend.get_articles, Method.POST, {
       id_type: 2,
       limit: 20,
+      sort_type: 300,
+      cursor: "0"
     })
   )?.data;
   let count = 2;
@@ -76,7 +78,7 @@ async function articleCollect() {
       {
         article_id: article_info["article_id"],
         // 收藏夹收藏id
-        select_collection_ids: ["7117170426861584420"],
+        select_collection_ids: [ "7117170426861584420" ],
       }
     );
     if (result["err_no"] !== 0) {
@@ -99,7 +101,6 @@ async function articleCollect() {
         item_id: article_info["article_id"],
         item_type: 2,
       });
-      count++;
     } else if (digg_result["err_no"] !== 0) {
       console.log(`文章点赞任务失败 ${JSON.stringify(digg_result)}`);
       console.log(JSON.stringify(article_info));
@@ -142,7 +143,7 @@ async function hotComment(comment, id) {
     Method.POST,
     {
       model: "gpt-3.5-turbo",
-      messages: [{ role: "user", content: comment }],
+      messages: [ { role: "user", content: comment } ],
       temperature: 0.7,
     }
   );

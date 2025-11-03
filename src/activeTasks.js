@@ -127,7 +127,11 @@ async function hotPublish() {
   console.log("发布沸点 --->", data);
   if (data === null) {
     console.log(`发布沸点失败 ${JSON.stringify(data)} 重新发布沸点 ---->`);
-    hotPublish();
+    await hotPublish();
+  } else {
+    // 沸点评论
+    hotComment("", data.msg_id);
+    hotComment("", data.msg_id);
   }
 }
 
@@ -136,32 +140,34 @@ async function hotPublish() {
  * @param {*} comment
  */
 async function hotComment(comment, id) {
-  console.log("chatgpt ----->", comment);
-  // 调用chatgpt api
-  const data = await fetchApi(
-    "https://api.chatanywhere.tech/v1/chat/completions",
-    Method.POST,
-    {
-      model: "gpt-3.5-turbo",
-      messages: [ { role: "user", content: comment } ],
-      temperature: 0.7,
-    }
-  );
+  // console.log("chatgpt ----->", comment);
+  // // 调用chatgpt api
+  // const data = await fetchApi(
+  //   "https://api.chatanywhere.tech/v1/chat/completions",
+  //   Method.POST,
+  //   {
+  //     model: "gpt-3.5-turbo",
+  //     messages: [ { role: "user", content: comment } ],
+  //     temperature: 0.7,
+  //   }
+  // );
 
-  if (data.choices) {
-    try {
-      await fetchApi(Api.Interact.comment, Method.POST, {
-        item_id: id,
-        item_type: 4,
-        comment_content: data.choices[0].message?.content,
-        comment_pics: [],
-      });
-    } catch (error) {
-      console.log("回复沸点接口错误");
-    }
-  } else {
-    throw "chatgpt api error";
+
+  // if (data.choices) {
+  try {
+    const word = await fetchApi("https://v1.hitokoto.cn/", Method.GET);
+    await fetchApi(Api.Interact.comment, Method.POST, {
+      item_id: id,
+      item_type: 4,
+      comment_content: word.hitokoto,
+      comment_pics: [],
+    });
+  } catch (error) {
+    console.log("回复沸点接口错误");
   }
+  // } else {
+  //   throw "chatgpt api error";
+  // }
 }
 
 /**
@@ -201,19 +207,6 @@ async function hotDigg() {
         i = Math.max(0, i - 1);
       } else if (digg_result["err_no"] !== 0) {
         console.log(`沸点点赞失败 ${JSON.stringify(digg_result)}`);
-      }
-    }
-
-    // 沸点评论
-    let count = 0;
-    for (let comment of messages) {
-      try {
-        hotComment(comment.content, comment.id);
-      } catch (error) {
-        count++;
-        if (count < 10) {
-          hotComment(comment.content, comment.id);
-        }
       }
     }
   }

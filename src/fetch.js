@@ -30,7 +30,7 @@ function generateVerifyString() {
   return `verify_${timestampPart}_${uuidPart}`;
 }
 
-const fetchApi = async (url, method, params) => {
+const fetchApi = async (url, method, params = {}) => {
   return new Promise(async (resolve, reject) => {
     const config = {
       headers, method: 'GET', credentials: 'include'
